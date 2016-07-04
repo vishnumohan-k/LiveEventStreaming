@@ -33,7 +33,7 @@ public class UserJDBCTemplate implements UserDAO {
 	      return user;
 	   }
 	   
-	   public List<User> listUser() 
+	/*   public List<User> listUser() 
 	   {
 		      String sql = "SELECT * FROM Users";
 		      List<User> listContact = jdbcTemplateObject.query(sql, new RowMapper<User>(){
@@ -50,10 +50,29 @@ public class UserJDBCTemplate implements UserDAO {
     });
  
     return listContact;
-		       
-		      
+		            
 	   }
-	   
+	*/   
+	    public List<User> listUser() 
+	   {
+		      String sql = "SELECT * FROM online";
+		      List<User> listContact = jdbcTemplateObject.query(sql, new RowMapper<User>(){
+		      public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+            User user = new User();
+ 
+      user.setName(rs.getString("Username"));
+    /*  user.setPassword(rs.getString("password"));
+      user.setEmail(rs.getString("email"));
+      user.setNumber(rs.getInt("phno"));*/
+      return user;
+        }
+ 
+    });
+ 
+    return listContact;
+		            
+	   }
+	     
 	   public void deleteOnline(String name){
 	   	      System.out.print("inside ");
 

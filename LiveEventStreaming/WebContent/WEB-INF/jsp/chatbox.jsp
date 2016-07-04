@@ -1,4 +1,5 @@
 <%@include file="UserHeader.jsp"%>
+
 		<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		<form role="search">
@@ -54,26 +55,26 @@
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Chat Room</h1>
+			<!-- 	<h1 class="page-header">Chat Room</h1>   -->
 	 			
 <div align="center">
-            <h1>Contact List</h1>
-            <h3><a href="#">New Contact</a></h3>
+            <h1>Chat Room</h1>
+          
             <table border="1">
                 <th>No</th>
                 <th>Name</th>
-                <th>Password</th>
+               <!--  <th>Password</th>
                 <th>Email</th>
                 <th>Telephone</th>
-                 
+                  -->
                 <c:forEach var="contact" items="${listContact}" varStatus="status">
                 <tr>
                     <td>${status.index + 1}</td>
                     <td>${contact.name}</td>
-                    <td>${contact.password}</td>
+                 <!--    <td>${contact.password}</td>
                     <td>${contact.email}</td>
                     <td>${contact.number}</td>
-                    
+                    -->
                              
                 </tr>
                 </c:forEach>             

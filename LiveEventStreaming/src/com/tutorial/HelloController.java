@@ -95,7 +95,7 @@ public class HelloController {
 	   return "load";
    }
    
-  @RequestMapping(value="/chatbox")
+  /*@RequestMapping(value="/chatbox")
    public ModelAndView chatBox(ModelMap model,ModelAndView mod){
 	    ApplicationContext context = 
 			      new ClassPathXmlApplicationContext("Beans.xml");
@@ -114,21 +114,31 @@ public class HelloController {
 		}
 		}
    
-   
- /*
+   */
+ 
    @RequestMapping(value="/chatbox")
-public String chatBox(ModelMap model){
+public ModelAndView chatBox(ModelMap model){
 	    ApplicationContext context = 
 			      new ClassPathXmlApplicationContext("Beans.xml");
 		UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
 	    List<User> listContact = studentJDBCTemplate.listUser();
+	    ModelAndView mod=new ModelAndView();
 		if(model.isEmpty())
-	 	      return "redirect:/Login";
-	   return "chatbox";
-	
+		{
+	 	     // return "redirect:/Login";
+	 	      mod.setViewName("redirect:/Login");
+			  return mod;
+		}
+		else
+		{
+		    mod.addObject("listContact", listContact);
+			mod.setViewName("chatbox");
+			return mod;	
+	  // return "chatbox";
+		}
 		}
 
- */
+ 
    
    @RequestMapping("/insert")
    public String JDBCinsertion(ModelMap model){
