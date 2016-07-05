@@ -2,44 +2,64 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
+
 <head>
-
+          <script type="text/javascript">
+    function Validate() 
+    {
+        var password = document.getElementById("pwd").value;
+        var confirmPassword = document.getElementById("repwd").value;
+        if (password != confirmPassword) {
+            alert("Passwords do not match.");
+            return false;
+        }
+        return true;
+    }
+</script>
 <title>Register Here</title>
-</head>
-<body>
 <%@include file="newHeader.jsp"%>
-<br/>
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+    </head>
+        <br><hr>
+        <form action="/LiveEventStreaming/LoginAfterRegsistration.html" method="post">
+    <div class="container">
+    <div class="row" >
+        <div style="width:400px; margin:0 auto; border: thin solid grey; border-radius: 25px;padding: 20px;">
+            <form method="POST" action="Register.php" >
+                 <h2 class="text-center">Register</h2>
+                <br/>
+                <div class="form-group has-feedback">
+                <input type="text" name="user_name" class="form-control" id="username" placeholder="Name" autofocus required>
+                <i class="glyphicon glyphicon-user form-control-feedback"></i>${valid}
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="email" name="email" class="form-control" id="userid" placeholder="Email" required>
+                    <i class="glyphicon glyphicon-envelope form-control-feedback"></i>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="text" name="phno"  class="form-control" id="age" placeholder="Phone Number" required>
+              <i class="glyphicon glyphicon-phone form-control-feedback"></i>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" name="password" class="form-control" id="pwd" placeholder="Password" required >
+                    <i class="glyphicon glyphicon-hand-left form-control-feedback"></i>
 
-<div id="main" style="width:400px; margin:0 auto; border: thin solid grey; border-radius: 25px;padding: 20px;">
-<center>
-<h2>${msg}</h2>
-<form action="/LiveEventStreaming/LoginAfterRegsistration.html" method="post">
-<p>
-<input type="text" name="user_name" placeholder="User Name" required style="height:20px;font-size:14pt;"/>
-</p>${valid}
-<p>
-	<input type="email" name="email" placeholder="Email Id" required style="height:20px;font-size:14pt;"/>
-</p>
-<p>
-<input type="text" name="phno" placeholder="Phone Number" required style="height:20px;font-size:14pt;"/>
-</p>
-
-<p>
-<input type="password" name="password" placeholder="Password" required style="height:20px;font-size:14pt;"/>
-</p>
-<p>
-<input type="password" name="repassword" placeholder="Repeat Password" required style="height:20px;font-size:14pt;"/>
-</p>
-<button type="submit" name="register"  id="login" style="font-size: 15px;font-weight: bold;" >Register</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="reset" name="cancel"  id="reset" style="font-size: 15px;font-weight: bold;">Cancel</button>
-<br/><br/>
-<i>Already a member,&nbsp;</i><a href="/LiveEventStreaming/Login.html#main"><b>Sign In</b></a>                   
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" name="repassword" class="form-control" id="repwd" placeholder="Repeat Password" required >
+                    <i class="glyphicon glyphicon-thumbs-up form-control-feedback"></i>
+                </div>
+                <br/>
+                <div class="align-center" style="text-align:center">
+                    <button type="submit" name="register" class="btn btn-default" id="login" style="font-size: 15px;font-weight: bold;" onclick="return Validate()">Register</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="reset" name="cancel" class="btn btn-default" id="reset" style="font-size: 15px;font-weight: bold;">Cancel</button>
+                    <br/><br/>
+                  <h4>  <i>Already a member,&nbsp;</i><a href="/LiveEventStreaming/Login.html#main"><b>Sign In</b></a></h4>  
+                </div>
+            </form>
+        </div>
+    </div><!--login form-->
+    </div>
 </form>
-  <footer id="foot01"></footer>
-</center>
-
-</div>
-<script src="script.js"></script>
-<!-- <%@include file="slider.jsp"%> -->
-</body>
 </html>

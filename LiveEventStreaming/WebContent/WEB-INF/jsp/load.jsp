@@ -7,12 +7,12 @@
 	<script type="text/javascript">
 		var auto_refresh=setInterval( function()
 		{
-		$('#load').load('chatbox').fadeIn('slow');
+		$('#load').load('chat').fadeIn('slow');
 		},
 		10000);
 	</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Open fire bug : chek ajax calls</title>
+<title>Show</title>
 </head>
 <body >
 	<h2>for monitering ajax working</h2>

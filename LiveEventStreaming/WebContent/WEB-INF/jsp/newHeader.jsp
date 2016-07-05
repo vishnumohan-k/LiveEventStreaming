@@ -3,6 +3,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+
 <script type="text/javascript" src="js/visitorhome.js"></script>
 <form:form modelAttribute="visitorhome">
     <div class="breadcrumbs">
