@@ -49,7 +49,8 @@ public ModelAndView chatBox(ModelMap model){
 	    ApplicationContext context = 
 			      new ClassPathXmlApplicationContext("Beans.xml");
 		UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
-	    List<User> listContact = studentJDBCTemplate.listUser();
+		
+	    List<User> listContact = studentJDBCTemplate.listUser((String)model.get("user"));
 
 	    ModelAndView mod=new ModelAndView();
 	    mod.addObject("listContact", listContact);
@@ -88,18 +89,15 @@ public ModelAndView chatBox(ModelMap model){
 	   	      ModelAndView mod=new ModelAndView();
 	   		   	 if((studentJDBCTemplate.isRegistered(name, password)))
 	   		   	 {
-					  System.out.print("hai passed");
 
 	   	    	  studentJDBCTemplate.pushOnline(name);
-	   	    	  List<User> listContact = studentJDBCTemplate.listUser();
+	   	    	  List<User> listContact = studentJDBCTemplate.listUser(name);
 	   	    	  model.addAttribute("user", name);
 	   	    	  mod.addObject("listContact", listContact);
 	   	    	  mod.setViewName("redirect:/Dashboard");
 				  return mod;	
 	   	    	  //return "Dashboard";
 	   		   	 }
-				  System.out.print("hai failed");
-
 	   		  mod.setViewName("redirect:/Login");
 			  return mod;
 		

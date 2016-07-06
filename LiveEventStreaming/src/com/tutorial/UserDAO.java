@@ -20,7 +20,7 @@ public interface UserDAO {
     * a record from the Student table corresponding
     * to a passed student id.
     */
-   public List<User> listUser();
+   public List<User> listUser(String name);
    /** 
     * This is the method to be used to delete
     * a record from the Student table corresponding

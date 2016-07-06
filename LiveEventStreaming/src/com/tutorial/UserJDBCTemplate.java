@@ -53,9 +53,9 @@ public class UserJDBCTemplate implements UserDAO {
 		            
 	   }
 	*/   
-	    public List<User> listUser() 
+	    public List<User> listUser(String name) 
 	   {
-		      String sql = "SELECT * FROM online";
+		      String sql = "SELECT * FROM online where Username != '"+name+"'";
 		      List<User> listContact = jdbcTemplateObject.query(sql, new RowMapper<User>(){
 		      public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             User user = new User();
