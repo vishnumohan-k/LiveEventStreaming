@@ -1,4 +1,5 @@
 <%@include file="UserHeader.jsp"%>
+<%response.setIntHeader("Refresh", 5); %>
 		<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		<form role="search">
@@ -10,9 +11,10 @@
 	<!-- 		<li class="active"><a href="#"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Online</a></li> -->
 	<div class="container">
 	
-			<h3><span class="glyphicon glyphicon-user"></span>Online&nbsp;<button type="button" class="btn" data-toggle="collapse" data-target="#demo">Show</button></h3>
+			<h3><span class="glyphicon glyphicon-user"></span>Online&nbsp;</h3>
+			<!-- <button type="button" class="btn" data-toggle="collapse" data-target="#demo">Show</button> -->
 			
-			<div id="demo" class="collapse">
+			<div id="demo">
 			           <table >
                 <c:forEach var="contact" items="${listContact}" varStatus="status">
                 <tr>

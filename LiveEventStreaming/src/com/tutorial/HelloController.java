@@ -50,7 +50,9 @@ public ModelAndView chatBox(ModelMap model){
 			      new ClassPathXmlApplicationContext("Beans.xml");
 		UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
 	    List<User> listContact = studentJDBCTemplate.listUser();
+
 	    ModelAndView mod=new ModelAndView();
+	    mod.addObject("listContact", listContact);
 		if(model.isEmpty())
 		{
 	 	     // return "redirect:/Login";
