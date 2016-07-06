@@ -10,6 +10,8 @@
 <!DOCTYPE html>
       <link rel="stylesheet" href="css/bootstrap.min.css">
 <script type="text/javascript" src="js/visitorhome.js"></script>
+<title>ShowTime</title>
+
 <form:form modelAttribute="visitorhome">
     <div class="breadcrumbs">
         <h1 style="padding-left:420px;" ><tiles:insertAttribute name="menutitle"/> </h1>

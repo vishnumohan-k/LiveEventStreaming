@@ -17,7 +17,7 @@
         return true;
     }
 </script>
-<title>Register Here</title>
+
 <%@include file="newHeader.jsp"%>
       <link rel="stylesheet" href="css/bootstrap.min.css">
     </head>
@@ -25,7 +25,7 @@
         <form action="/LiveEventStreaming/LoginAfterRegsistration.html" method="post">
     <div class="container">
     <div class="row" >
-        <div style="width:400px; margin:0 auto; border: thin solid grey; border-radius: 25px;padding: 20px;">
+        <div id="main" style="width:400px; margin:0 auto; border: thin solid grey; border-radius: 25px;padding: 20px;">
             <form method="POST" action="Register.php" >
                  <h2 class="text-center">Register</h2>
                 <br/>

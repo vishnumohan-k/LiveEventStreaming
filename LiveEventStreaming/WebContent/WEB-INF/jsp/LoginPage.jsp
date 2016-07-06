@@ -11,7 +11,7 @@
 
     <div class="container" >
     <div class="row" >
-        <div style="width:400px; margin:0 auto; border: thin solid grey; border-radius: 25px;padding: 20px;">
+        <div id="main" style="width:400px; margin:0 auto; border: thin solid grey; border-radius: 25px;padding: 20px;">
             <form method="POST" action="/LiveEventStreaming/SubmitLogin.html">
                  <h2 class="text-center">Sign-In</h2>
                 <br/>

@@ -24,58 +24,6 @@ import com.tutorial.UserJDBCTemplate;
 @SessionAttributes( {"user"}) 
 public class HelloController {
  
-   @RequestMapping("/won")
-   public String printHello(ModelMap model) {
-      model.addAttribute("message", "Hello Spring MVC Framework!");
-
-      return "hello";
-   }
-   
-   @RequestMapping(value="/SubmitLogin.html")
-   public String showdash(ModelMap model) {
-		if(model.isEmpty())
-	 	      return "redirect:/Login";
-	   
-	   return "index";
-	   }
-   @RequestMapping(value="/widgets.html")
-   public String showwidget(ModelMap model) {
-	if(model.isEmpty())
- 	      return "redirect:/Login";
-		return "widgets";
-	      
-	   }
-   @RequestMapping(value="/charts.html")
-   public String showchart(ModelMap model) {
-		if(model.isEmpty())
-	 	      return "redirect:/Login";
-	      return "charts";
-	   }
-   @RequestMapping(value="/tables.html")
-   public String showtable(ModelMap model) {
-		if(model.isEmpty())
-	 	      return "redirect:/Login";
-	   
-	      return "tables";
-	   }
-   @RequestMapping(value="/forms.html")
-   public String showforms(ModelMap model) {
-		if(model.isEmpty())
-	 	      return "redirect:/Login";
-	      return "forms";
-	   }
-   @RequestMapping(value="/panels.html")
-   public String showpanels(ModelMap model) {
-		if(model.isEmpty())
-	 	      return "redirect:/Login";
-	      return "panels";
-	   }
-   @RequestMapping(value="/icons.html")
-   public String showicons(ModelMap model) {
-		if(model.isEmpty())
-	 	      return "redirect:/Login";
-	      return "icons";
-	   }
    
    @RequestMapping("/")
    public String Home(ModelMap model) {
@@ -94,29 +42,9 @@ public class HelloController {
    public String checkAjax(ModelMap model){
 	   return "load";
    }
-   
-  /*@RequestMapping(value="/chatbox")
-   public ModelAndView chatBox(ModelMap model,ModelAndView mod){
-	    ApplicationContext context = 
-			      new ClassPathXmlApplicationContext("Beans.xml");
-		UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
-	    List<User> listContact = studentJDBCTemplate.listUser();
-		if(model.isEmpty())
-		{
-				mod.setViewName("redirect:/Login");
-				return mod;
-		}
-		else
-		{
-	    mod.addObject("listContact", listContact);
-		mod.setViewName("chatbox");
-		return mod;
-		}
-		}
-   
-   */
  
-   @RequestMapping(value="/chatbox")
+ 
+   @RequestMapping(value="/Dashboard")
 public ModelAndView chatBox(ModelMap model){
 	    ApplicationContext context = 
 			      new ClassPathXmlApplicationContext("Beans.xml");
@@ -132,23 +60,12 @@ public ModelAndView chatBox(ModelMap model){
 		else
 		{
 		    mod.addObject("listContact", listContact);
-			mod.setViewName("chatbox");
+			mod.setViewName("Dashboard");
 			return mod;	
 	  // return "chatbox";
 		}
 		}
 
- 
-   
-   @RequestMapping("/insert")
-   public String JDBCinsertion(ModelMap model){
-
-	      ApplicationContext context = 
-	      new ClassPathXmlApplicationContext("Beans.xml");
-	      UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
-	      studentJDBCTemplate.create("Sam","1234","sam@gmail.com",808991);
-	      return "sucess";
-   }
    
 	@RequestMapping(value="/Login",method=RequestMethod.GET)
 	public ModelAndView getLoginForm()
@@ -160,47 +77,30 @@ public ModelAndView chatBox(ModelMap model){
 	
 	@RequestMapping(value="/SubmitLogin.html",method=RequestMethod.POST)
 	
-	/*public ModelAndView submittLoginForm(@ModelAttribute("stud") User stud)
-	{
-
-		ModelAndView model=new ModelAndView("LoginSuccess");	
-		model.addObject("headermsg","ShowTime Web Application");
-		return model;
-	}
-	*/
 	public ModelAndView submittLoginForm(@RequestParam("userName")String name,@RequestParam("password")String password,ModelMap model,HttpServletRequest request)
 	{
-	/*	User usr=new User();	
-		usr.setName(name);
-		usr.setPassword(password);
-	     ApplicationContext context = 
-	      new ClassPathXmlApplicationContext("Beans.xml");
-	      UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
-	      User usr1 = studentJDBCTemplate.getUser(name,password);
-		ModelAndView model=new ModelAndView("index");
-		model.addObject("headermsg","ShowTime Web Application");
-		model.addObject("usr1",usr);*/
-		
-	     		ApplicationContext context = 
+		 	  ApplicationContext context = 
 	   	      new ClassPathXmlApplicationContext("Beans.xml");
 	   	      UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
-	   	      
+	      
 	   	      ModelAndView mod=new ModelAndView();
-	   	      if(studentJDBCTemplate.isRegistered(name, password))
-	   	      {
+	   		   	 if((studentJDBCTemplate.isRegistered(name, password)))
+	   		   	 {
+					  System.out.print("hai passed");
+
 	   	    	  studentJDBCTemplate.pushOnline(name);
 	   	    	  List<User> listContact = studentJDBCTemplate.listUser();
 	   	    	  model.addAttribute("user", name);
 	   	    	  mod.addObject("listContact", listContact);
-	   	    	  mod.setViewName("Dashboard");
+	   	    	  mod.setViewName("redirect:/Dashboard");
 				  return mod;	
 	   	    	  //return "Dashboard";
-	   	    	  
-	   	      }
-	 	      mod.setViewName("redirect:/Login");
+	   		   	 }
+				  System.out.print("hai failed");
+
+	   		  mod.setViewName("redirect:/Login");
 			  return mod;
-	   	      //return "redirect:/Login";
-		     
+		
 	}
 	
 	@RequestMapping("/Logout")
@@ -209,7 +109,6 @@ public ModelAndView chatBox(ModelMap model){
 		ApplicationContext context = 
 		   	      new ClassPathXmlApplicationContext("Beans.xml");
 		   	      UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
-		   	      System.out.print("inside logout");
 		studentJDBCTemplate.deleteOnline((String)model.get("user"));
         status.setComplete();
         session.removeAttribute("user");
@@ -219,15 +118,6 @@ public ModelAndView chatBox(ModelMap model){
 
 	
 	@RequestMapping(value="/LoginAfterRegsistration.html",method=RequestMethod.POST)
-	
-	/*public ModelAndView submittRegister(@ModelAttribute("usr") User usr)
-	{
-
-		ModelAndView model=new ModelAndView("RegistrationSuccess");	
-		model.addObject("headermsg","ShowTime Web Application");
-		return model;
-	}*/
-	
 	
 	public ModelAndView submitRegisterForm(@RequestParam("user_name")String name,@RequestParam("email")String email,@RequestParam("password")String password,@RequestParam("phno")Integer number,ModelMap modelmap,HttpServletRequest request)
 	{
@@ -254,7 +144,8 @@ public ModelAndView chatBox(ModelMap model){
 	      studentJDBCTemplate.create(n,p,e,num);
 	      modelmap.addAttribute("user", name);
 	      studentJDBCTemplate.pushOnline(name);
-		ModelAndView model=new ModelAndView("indexnew");
+		ModelAndView model=new ModelAndView();
+		model.setViewName("redirect:/Dashboard");
 		model.addObject("headermsg","ShowTime Web Application");
 		model.addObject("usr",usr);
 		return model;
@@ -264,10 +155,7 @@ public ModelAndView chatBox(ModelMap model){
 	@RequestMapping("/SubmitRegistration.html")
 	public ModelAndView registration()
 	{
-		//ApplicationContext ctx=new ClassPathXmlApplicationContext("Beans.xml");
-		//UserDAO dao=(UserDAO)ctx.getBean("edao");
-		//int status=dao.saveUser(new Student("sdasd","Amit","asdasd"));
-	//	System.out.println(status);*/
+
 		ModelAndView model=new ModelAndView("SubmitRegistration");
 		model.addObject("valid"," ");
 		model.addObject("msg","User Registration");
