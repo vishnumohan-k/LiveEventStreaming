@@ -35,9 +35,25 @@ public class HelloController {
    @RequestMapping("/home")
    public String VisitorHome(ModelMap model) {
       //model.addAttribute("message", "Hello Spring MVC Framework!");
-	   return "visitorhome";
+	   return "new";
 	  
    }
+   @RequestMapping("/ViewProfile")
+   public ModelAndView ViewProfile(ModelMap model) {
+	   ApplicationContext context = 
+			      new ClassPathXmlApplicationContext("Beans.xml");
+		UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
+		
+	    List<User> listContact = studentJDBCTemplate.listUser((String)model.get("user"));
+	    ModelAndView mod=new ModelAndView();
+	    mod.addObject("listContact", listContact);
+      //model.addAttribute("message", "Hello Spring MVC Framework!");
+	    mod.setViewName("ViewProfile");
+	  // return "ViewProfile";
+	    return mod;
+	  
+   }
+   
    @RequestMapping("/ajax")
    public String checkAjax(ModelMap model){
 	   return "load";
@@ -71,11 +87,20 @@ public ModelAndView chatBox(ModelMap model){
 
    
 	@RequestMapping(value="/Login",method=RequestMethod.GET)
-	public ModelAndView getLoginForm()
+	public ModelAndView getLoginForm(ModelMap mod)
 	{
+		if(mod.isEmpty())
+		{
 		ModelAndView model=new ModelAndView("LoginPage");
 		model.addObject("msg","User Login");
 		return model;
+		}
+		else
+		{
+			ModelAndView model=new ModelAndView();
+			model.setViewName("Dashboard");
+			return model;	
+		}
 	}
 	
 	@RequestMapping(value="/SubmitLogin.html",method=RequestMethod.POST)
@@ -153,13 +178,21 @@ public ModelAndView chatBox(ModelMap model){
 	
 	
 	@RequestMapping("/SubmitRegistration.html")
-	public ModelAndView registration()
+	public ModelAndView registration(ModelMap mod)
 	{
-
+		if(mod.isEmpty())
+		{
 		ModelAndView model=new ModelAndView("SubmitRegistration");
 		model.addObject("valid"," ");
 		model.addObject("msg","User Registration");
 		return model;
+		}
+		else
+		{
+			ModelAndView model=new ModelAndView();
+			model.setViewName("Dashboard");
+			return model;	
+		}
 	}
 	
 /*
