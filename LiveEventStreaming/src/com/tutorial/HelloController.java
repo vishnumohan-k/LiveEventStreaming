@@ -47,10 +47,18 @@ public class HelloController {
 	    List<User> listContact = studentJDBCTemplate.listUser((String)model.get("user"));
 	    ModelAndView mod=new ModelAndView();
 	    mod.addObject("listContact", listContact);
-      //model.addAttribute("message", "Hello Spring MVC Framework!");
+	    if(model.isEmpty())
+		{
+	 	     // return "redirect:/Login";
+	 	      mod.setViewName("redirect:/Login");
+			  return mod;
+		}
+	    else
+	    {
+	    mod.addObject("listContact", listContact);
 	    mod.setViewName("ViewProfile");
-	  // return "ViewProfile";
 	    return mod;
+	    }
 	  
    }
    
@@ -60,7 +68,7 @@ public class HelloController {
    }
  
  
-   @RequestMapping(value="/Dashboard")
+   @RequestMapping(value="/Dash")
 public ModelAndView chatBox(ModelMap model){
 	    ApplicationContext context = 
 			      new ClassPathXmlApplicationContext("Beans.xml");
@@ -79,7 +87,7 @@ public ModelAndView chatBox(ModelMap model){
 		else
 		{
 		    mod.addObject("listContact", listContact);
-			mod.setViewName("Dashboard");
+			mod.setViewName("Dash");
 			return mod;	
 	  // return "chatbox";
 		}
@@ -98,7 +106,7 @@ public ModelAndView chatBox(ModelMap model){
 		else
 		{
 			ModelAndView model=new ModelAndView();
-			model.setViewName("Dashboard");
+			model.setViewName("Dash");
 			return model;	
 		}
 	}
@@ -119,7 +127,7 @@ public ModelAndView chatBox(ModelMap model){
 	   	    	  List<User> listContact = studentJDBCTemplate.listUser(name);
 	   	    	  model.addAttribute("user", name);
 	   	    	  mod.addObject("listContact", listContact);
-	   	    	  mod.setViewName("redirect:/Dashboard");
+	   	    	  mod.setViewName("redirect:/Dash");
 				  return mod;	
 	   	    	  //return "Dashboard";
 	   		   	 }
@@ -170,7 +178,7 @@ public ModelAndView chatBox(ModelMap model){
 	      modelmap.addAttribute("user", name);
 	      studentJDBCTemplate.pushOnline(name);
 		ModelAndView model=new ModelAndView();
-		model.setViewName("redirect:/Dashboard");
+		model.setViewName("redirect:/Dash");
 		model.addObject("headermsg","ShowTime Web Application");
 		model.addObject("usr",usr);
 		return model;
@@ -190,7 +198,7 @@ public ModelAndView chatBox(ModelMap model){
 		else
 		{
 			ModelAndView model=new ModelAndView();
-			model.setViewName("Dashboard");
+			model.setViewName("Dash");
 			return model;	
 		}
 	}

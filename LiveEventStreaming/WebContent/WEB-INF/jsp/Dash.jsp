@@ -5,7 +5,7 @@
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Profile Page</h1>
+				<h1 class="page-header">Hello <%=session.getAttribute("user")%>,</h1>
 				
 			</div>
 		</div><!--/.row-->
@@ -13,15 +13,16 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading"><h1><abbr>Name of User</abbr></h1></div>
+					<center><div class="panel-heading"><h1><abbr>Notifications</abbr></h1></div></center>
 					<div class="panel-body">
 						<div class="canvas-wrapper">
-							<h2>Username</h2><br/>
-							<h2>Email Id</h2><br/>
-							<h2>Phone Number</h2><br/>
-							<h2>Status</h2><br/>
-							
-							
+							<h2>Video Call Request From</h2><br/>
+							<center>
+						<h3>	<p><a href="#">Sameesh</a>&nbsp;&nbsp;&nbsp;
+							<button type="button" class="btn btn-success">Accept</button>&nbsp;&nbsp;
+							<button type="button" class="btn btn-danger">Deny</button>
+							</p></h3> 
+							</center>
 						</div>
 					</div>
 				</div>
