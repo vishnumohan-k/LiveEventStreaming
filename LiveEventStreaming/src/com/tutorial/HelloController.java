@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.util.List;
@@ -38,8 +39,8 @@ public class HelloController {
 	   return "new";
 	  
    }
-   @RequestMapping("/ViewProfile")
-   public ModelAndView ViewProfile(ModelMap model) {
+   @RequestMapping(value="/ViewProfile",method=RequestMethod.GET)
+   public ModelAndView ViewProfile(ModelMap model,HttpServletRequest request, HttpServletResponse response) {
 	   ApplicationContext context = 
 			      new ClassPathXmlApplicationContext("Beans.xml");
 		UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
@@ -55,6 +56,8 @@ public class HelloController {
 		}
 	    else
 	    {
+	    String name=request.getParameter("name");
+	    mod.addObject("name", name);
 	    mod.addObject("listContact", listContact);
 	    mod.setViewName("ViewProfile");
 	    return mod;

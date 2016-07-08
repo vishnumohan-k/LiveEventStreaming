@@ -27,7 +27,7 @@
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
       <li><a href="#">Video Chat</a></li>
-      <li><a href="/LiveEventStreaming/ViewProfile">View Profile</a></li>
+      <li><a href="/LiveEventStreaming/ViewProfile?name=${contact.name}">View Profile</a></li>
       <li class="divider"></li>
       <li><a href="#">Hide Contact</a></li>
       <li><a href="#">Exit</a></li>

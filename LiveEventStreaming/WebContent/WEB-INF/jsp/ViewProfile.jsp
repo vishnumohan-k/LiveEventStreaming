@@ -13,10 +13,10 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading"><h1><abbr>Name of User</abbr></h1></div>
+					<div class="panel-heading"><center><h1><abbr>${name}</abbr></h1></center></div>
 					<div class="panel-body">
 						<div class="canvas-wrapper">
-							<h2>Username</h2><br/>
+							<h2>Username:&nbsp;${name}</h2><br/>
 							<h2>Email Id</h2><br/>
 							<h2>Phone Number</h2><br/>
 							<h2>Status</h2><br/>

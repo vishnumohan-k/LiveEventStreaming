@@ -2,6 +2,7 @@
 <%@include file="Dashboard.jsp"%>
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
 
+		            
 		
 		<div class="row">
 			<div class="col-lg-12">
@@ -13,7 +14,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<center><div class="panel-heading"><h1><abbr>Notifications</abbr></h1></div></center>
+					<center><div class="panel-heading"><h1><abbr>Your Notifications</abbr></h1></div></center>
 					<div class="panel-body">
 						<div class="canvas-wrapper">
 							<h2>Video Call Request From</h2><br/>
