@@ -19,6 +19,6 @@ public class MyApp {
 		      (UserJDBCTemplate)context.getBean("userJDBCTemplate");
 		      
 		      System.out.println("------Records Creation--------" );
-		      studentJDBCTemplate.create("Zara","sda","sadaas",8089);
+		      //studentJDBCTemplate.create("Zara","sda","sadaas",8089);
 	   }
 }

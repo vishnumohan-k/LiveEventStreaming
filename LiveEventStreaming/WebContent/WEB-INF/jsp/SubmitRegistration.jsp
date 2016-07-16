@@ -10,6 +10,12 @@
     {
         var password = document.getElementById("pwd").value;
         var confirmPassword = document.getElementById("repwd").value;
+        var Tel=document.getElementById("phone").value;
+        if (isNaN(Tel))
+        	{
+        	alert("Invalid Phone number");
+        	return false;
+        	}
         if (password != confirmPassword) {
             alert("Passwords do not match.");
             return false;
@@ -38,7 +44,7 @@
                     <i class="glyphicon glyphicon-envelope form-control-feedback"></i>
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="text" name="phno"  class="form-control" id="age" placeholder="Phone Number" required>
+                    <input type="text" name="phno"  class="form-control" id="phone" placeholder="Phone Number" required pattern="[0-9]{10}">
               <i class="glyphicon glyphicon-phone form-control-feedback"></i>
                 </div>
                 <div class="form-group has-feedback">

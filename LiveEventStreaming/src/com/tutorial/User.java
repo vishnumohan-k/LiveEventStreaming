@@ -4,12 +4,26 @@ public class User {
 	private String name;
 	private String password;
 	private String email;
-	private Integer number;
+	private Long number;
+	private String date;
+	private int status;
 	
-	public Integer getNumber() {
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public Long getNumber() {
 		return number;
 	}
-	public void setNumber(Integer number) {
+	public void setNumber(Long number) {
 		this.number = number;
 	}
 	public void setName(String name){

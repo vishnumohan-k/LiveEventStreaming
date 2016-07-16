@@ -3,8 +3,10 @@ package com.tutorial;
 import java.util.List;
 
 import javax.sql.DataSource;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -12,15 +14,105 @@ public class UserJDBCTemplate implements UserDAO {
 	   private DataSource dataSource;
 	   private JdbcTemplate jdbcTemplateObject;
 	   
+	   public void clear(String name)
+	   {
+		   String SQL = "delete from CallHistory where Caller2 = '"+name+"' ";
+		   jdbcTemplateObject.update(SQL);
+		   return;
+	   }
+	   public String returnDate(String name)
+	   {
+		    String SQL = "select LastLogin from Users where user_name = ?";
+		    Object[] inputs = new Object[] {name};
+	        String date = jdbcTemplateObject.queryForObject(SQL, inputs, String.class);        
+		   return date;
+	   }
+	   
+	   public List<Histoty> notification(String name,String date)
+	   {
+		   String sql = "SELECT DISTINCT(Caller1),Time FROM CallHistory WHERE Caller2 = '"+name+"' AND Time > '"+date+"'" ;
+		      List<Histoty> callHistory = jdbcTemplateObject.query(sql, new RowMapper<Histoty>(){
+		      public Histoty mapRow(ResultSet rs, int rowNum) throws SQLException {
+		    	  Histoty hist=new Histoty();
+
+		    	  hist.setCaller1(rs.getString("Caller1"));
+		    	  hist.setDate(rs.getString("Time"));
+		    	  return hist;
+     }
+		
+		      
+ });
+
+ return callHistory;
+		            
+	   }
+	   
+	   public void sendRequest(String caller1,String caller2,String date)
+	   {
+		      String SQL = "insert into CallHistory (Caller1,Caller2,Time) values (?,?,?)";
+		      
+		      jdbcTemplateObject.update( SQL, caller1,caller2,date);
+		      return;
+	   }
 	   public void setDataSource(DataSource dataSource) {
 		      this.dataSource = dataSource;
 		      this.jdbcTemplateObject = new JdbcTemplate(dataSource);
 		   }
 	   
-	   public void create(String name,String password,String email,Integer no) {
-		      String SQL = "insert into Users (user_name,password,email,phno) values (?,?,?,?)";
+	   public void updateLoginTime(String date,String name)
+	   {
+		   String sql = "UPDATE Users SET LastLogin = ? WHERE user_name=?";
+		   jdbcTemplateObject.update( sql,date,name);
+		   return;
+	   }
+	   
+	   public List<User> viewProfile(String name) 
+	   {
+		      String sql = "SELECT * FROM Users where user_name = '"+name+"'";
+		      List<User> listProfile = jdbcTemplateObject.query(sql, new RowMapper<User>(){
+		      public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+            User user = new User();
+ 
+      user.setName(rs.getString("user_name"));
+    user.setPassword(rs.getString("password"));
+      user.setEmail(rs.getString("email"));
+      user.setNumber(rs.getLong("phno"));
+      user.setDate(rs.getString("LastLogin"));
+      return user;
+        }
+		
 		      
-		      jdbcTemplateObject.update( SQL, name,password,email,no);
+    });
+ 
+    return listProfile;
+		            
+	   }
+	     
+	   public List<User> editProfile(String name)
+	   {
+		   String sql = "SELECT * FROM Users where user_name = '"+name+"'";
+		      List<User> editProfile = jdbcTemplateObject.query(sql, new RowMapper<User>(){
+		      public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+		    	  User user = new User();
+
+		    	  user.setName(rs.getString("user_name"));
+		    	  user.setPassword(rs.getString("password"));
+		    	  user.setEmail(rs.getString("email"));
+		    	  user.setNumber(rs.getLong("phno"));
+		    	  user.setDate(rs.getString("LastLogin"));
+		    	  return user;
+     }
+
+ });
+
+ return editProfile;
+	   }
+	   
+	   
+	   public void create(String name,String password,String email,Long no,String date) {
+		      String SQL = "insert into Users (user_name,password,email,phno,LastLogin,status) values (?,?,?,?,?,1)";
+		      
+		      jdbcTemplateObject.update( SQL, name,password,email,no,date);
 		      //System.out.println("Created Record Name = " + name );
 		      return;
 		   } 
@@ -32,27 +124,7 @@ public class UserJDBCTemplate implements UserDAO {
 	                        new Object[]{name}, new UserMapper());
 	      return user;
 	   }
-	   
-	/*   public List<User> listUser() 
-	   {
-		      String sql = "SELECT * FROM Users";
-		      List<User> listContact = jdbcTemplateObject.query(sql, new RowMapper<User>(){
-		      public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-            User user = new User();
- 
-      user.setName(rs.getString("user_name"));
-      user.setPassword(rs.getString("password"));
-      user.setEmail(rs.getString("email"));
-      user.setNumber(rs.getInt("phno"));
-      return user;
-        }
- 
-    });
- 
-    return listContact;
-		            
-	   }
-	*/   
+	     
 	    public List<User> listUser(String name) 
 	   {
 		      String sql = "SELECT * FROM online where Username != '"+name+"'";
@@ -61,9 +133,6 @@ public class UserJDBCTemplate implements UserDAO {
             User user = new User();
  
       user.setName(rs.getString("Username"));
-    /*  user.setPassword(rs.getString("password"));
-      user.setEmail(rs.getString("email"));
-      user.setNumber(rs.getInt("phno"));*/
       return user;
         }
  
@@ -72,21 +141,58 @@ public class UserJDBCTemplate implements UserDAO {
     return listContact;
 		            
 	   }
+	   
+	    public List<User> listOnline(String name) 
+	   {
+		      String sql = "SELECT * FROM Users where user_name != '"+name+"' AND status=1";
+		      List<User> listOnline = jdbcTemplateObject.query(sql, new RowMapper<User>(){
+		      public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+            User user = new User();
+ 
+      user.setName(rs.getString("user_name"));
+      return user;
+        }
+ 
+    });
+ 
+    return listOnline;
+		            
+	   }
+	    
+	    public List<User> listOffline(String name) 
+		   {
+			      String sql = "SELECT * FROM Users where user_name != '"+name+"' AND status=0";
+			      List<User> listOffline = jdbcTemplateObject.query(sql, new RowMapper<User>(){
+			      public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+	            User user = new User();
+	 
+	      user.setName(rs.getString("user_name"));
+	      return user;
+	        }
+	 
+	    });
+	 
+	    return listOffline;
+			            
+		   }
+		     
 	     
 	   public void deleteOnline(String name){
-	   	      System.out.print("inside ");
+	   	      //System.out.print("inside ");
 
 		      String SQL = "delete from online where Username = '"+name+"'";
-	   	      System.out.print(SQL);
+	   	     // System.out.print(SQL);
+		      String SQL1 = "update Users set status=0 where user_name= ?";
+		      jdbcTemplateObject.update(SQL1, name );
 
 		      jdbcTemplateObject.update(SQL);
 		      //System.out.println("Deleted Record with ID = " + id );
 		      return;
 		   }
 	   
-	   public void update(String name){
-		      String SQL = "update Student set name = '?' where name = '?'";
-		      jdbcTemplateObject.update(SQL, name , name);
+	   public void update(String name,String passord,String email,Long no,String username){
+		      String SQL = "update Users set user_name = ?,password=?,email=?,phno=? where user_name= ?";
+		      jdbcTemplateObject.update(SQL, name , passord,email,no,username);
 		      //System.out.println("Updated Record with ID = " + id );
 		      return;
 		   }
@@ -105,8 +211,11 @@ public class UserJDBCTemplate implements UserDAO {
 	   public void pushOnline(String name)
 	   {
 		
-		   String SQL = "insert into online (Username) values (?)";
-		   jdbcTemplateObject.update( SQL, name);
+		  // String SQL = "insert into online (Username) values (?)";
+		   String SQL1 = "update Users set status=1 where user_name= ?";
+
+		  // jdbcTemplateObject.update( SQL, name);
+		   jdbcTemplateObject.update( SQL1, name);
 		   return;
 	   }
 	   
@@ -118,4 +227,11 @@ public class UserJDBCTemplate implements UserDAO {
 		   return true;
 	   }
 	   
+	   public boolean userValid(String name,String password){
+		   String SQL = "select * from Users where user_name ='"+name+"' AND password ='"+password+"'";
+		   List <User> users = jdbcTemplateObject.query(SQL, new UserMapper());
+		   if(users.size()>0)
+			   return false;
+		   return true;
+	   }
 }

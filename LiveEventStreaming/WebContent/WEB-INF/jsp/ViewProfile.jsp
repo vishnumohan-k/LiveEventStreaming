@@ -16,12 +16,13 @@
 					<div class="panel-heading"><center><h1><abbr>${name}</abbr></h1></center></div>
 					<div class="panel-body">
 						<div class="canvas-wrapper">
-							<h2>Username:&nbsp;${name}</h2><br/>
-							<h2>Email Id</h2><br/>
-							<h2>Phone Number</h2><br/>
-							<h2>Status</h2><br/>
-							
-							
+						     <c:forEach var="contact" items="${listProfile}" varStatus="status">
+						
+							<h2>Username:&nbsp;${contact.name}</h2><br/>
+							<h2>Email Id:&nbsp;${contact.email}</h2><br/>
+							<h2>Phone Number:&nbsp;${contact.number}</h2><br/>
+							<h2>Last Login:&nbsp;${contact.date}</h2><br/>
+							</c:forEach>
 						</div>
 					</div>
 				</div>

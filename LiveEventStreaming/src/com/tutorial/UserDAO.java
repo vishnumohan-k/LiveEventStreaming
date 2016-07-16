@@ -5,29 +5,20 @@ import java.util.List;
 import javax.sql.DataSource;
 
 public interface UserDAO {
-   /** 
-    * This is the method to be used to initialize
-    * database resources ie. connection.
-    */
+
    public void setDataSource(DataSource ds);
-   /** 
-    * This is the method to be used to create
-    * a record in the Student table.
-    */
-   public void create(String name,String password,String email,Integer phno);
-   /** 
-    * This is the method to be used to list down
-    * a record from the Student table corresponding
-    * to a passed student id.
-    */
+   public void clear(String name);
+   public void create(String name,String password,String email,Long phno,String date);
+
    public List<User> listUser(String name);
-   /** 
-    * This is the method to be used to delete
-    * a record from the Student table corresponding
-    * to a passed student id.
-    */
+   public List<User> listOnline(String name) ;
+   public List<User> listOffline(String name) ;
+   
+   public List<User> viewProfile(String name);
+   
+   public List<User> editProfile(String name);
   
-   public void update(String name);
+   public void update(String name,String passord,String email,Long no,String username);
    
    public User getUser(String name,String password);
    
@@ -37,5 +28,13 @@ public interface UserDAO {
    
    public void deleteOnline(String name);
    public boolean usernameValid(String name);
+   public boolean userValid(String name,String password);
+   public void updateLoginTime(String name,String date);
+   
+   public void sendRequest(String caller1,String caller2,String date);
+   
+   public List<Histoty>notification(String name,String date);
+   
+   public String returnDate(String name);
    
    }

@@ -1,0 +1,40 @@
+ 1. Table- Users
+ 
+           mysql> desc Users;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| user_id   | int(5)      | NO   | PRI | NULL    | auto_increment |
+| user_name | varchar(30) | NO   |     | NULL    |                |
+| password  | varchar(10) | NO   |     | NULL    |                |
+| email     | varchar(50) | NO   |     | NULL    |                |
+| phno      | bigint(12)  | NO   |     | NULL    |                |
+| LastLogin | datetime    | YES  |     | NULL    |                |
+| status    | int(1)      | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+           
+         
+         
+  2. Table- CallHistory
+  
+  		
+mysql> desc CallHistory;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| CallId  | int(5)      | NO   | PRI | NULL    | auto_increment |
+| Caller1 | varchar(30) | NO   |     | NULL    |                |
+| Caller2 | varchar(30) | NO   |     | NULL    |                |
+| Time    | datetime    | NO   |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+  		
+  		
+ 3. Table - online
+ 
+ mysql> desc online;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Username | varchar(30) | NO   | PRI | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+ 
