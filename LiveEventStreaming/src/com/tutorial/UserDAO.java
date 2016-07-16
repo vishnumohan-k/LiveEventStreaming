@@ -18,7 +18,7 @@ public interface UserDAO {
    
    public List<User> editProfile(String name);
   
-   public void update(String name,String passord,String email,Long no,String username);
+   public void update(String passord,String email,Long no,String username);
    
    public User getUser(String name,String password);
    

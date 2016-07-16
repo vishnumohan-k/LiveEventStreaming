@@ -36,11 +36,11 @@
                  <h2 class="text-center">Update Your Profile</h2>
                 <br/>
                 <div class="form-group has-feedback">
-                <input type="text" name="user_name" class="form-control" id="username" placeholder="New/Old UserName" autofocus required value=${contact.name}>
+                <input type="text" name="user_name" class="form-control" id="username" placeholder="New/Old UserName"  disabled value=${contact.name} >
                 <i class="glyphicon glyphicon-user form-control-feedback"></i>${valid}
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="email" name="email" class="form-control" id="userid" placeholder="New Email" value=${contact.email} required>
+                    <input type="email" name="email" class="form-control" id="userid" placeholder="New Email" value=${contact.email} required autofocus>
                     <i class="glyphicon glyphicon-envelope form-control-feedback"></i>
                 </div>
                 <div class="form-group has-feedback">

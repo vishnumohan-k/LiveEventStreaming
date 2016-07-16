@@ -65,29 +65,29 @@ public class HelloController
 	
 @RequestMapping(value="/UpdateProfile",method=RequestMethod.POST)
 	
-	public ModelAndView updateProfile(ModelMap model,@RequestParam("user_name")String name,@RequestParam("email")String email,@RequestParam("phno")Long number,@RequestParam("password")String password,ModelMap modelmap,HttpServletRequest request)
+	public ModelAndView updateProfile(ModelMap model,@RequestParam("email")String email,@RequestParam("phno")Long number,@RequestParam("password")String password,ModelMap modelmap,HttpServletRequest request)
 	{
 	User usr=new User();
-	usr.setName(name);
 	usr.setEmail(email);
 	usr.setPassword(password);
 	usr.setNumber(number);
-	String n=usr.getName();
 	String p=usr.getPassword();
 	String e=usr.getEmail();
 	Long num=usr.getNumber();
       ApplicationContext context = 
       new ClassPathXmlApplicationContext("Beans.xml");
       UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
-      
+     /* 
       if(!studentJDBCTemplate.usernameValid(name)){
 	  		ModelAndView mod=new ModelAndView("Settings");
 			mod.addObject("msg","User Updation");
+			System.out.print("sad");
 			mod.addObject("valid","Username "+name+" exist please choose another");
 			return mod;
 	      }
+	      */
       
-      studentJDBCTemplate.update(n,p,e,num,(String)model.get("user"));
+      studentJDBCTemplate.update(p,e,num,(String)model.get("user"));
       ModelAndView mod=new ModelAndView();
       List<User> listContact = studentJDBCTemplate.listUser((String)model.get("user"));
 	    List<User> listOnline = studentJDBCTemplate.listOnline((String)model.get("user"));

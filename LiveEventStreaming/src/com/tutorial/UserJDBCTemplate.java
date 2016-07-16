@@ -190,9 +190,9 @@ public class UserJDBCTemplate implements UserDAO {
 		      return;
 		   }
 	   
-	   public void update(String name,String passord,String email,Long no,String username){
-		      String SQL = "update Users set user_name = ?,password=?,email=?,phno=? where user_name= ?";
-		      jdbcTemplateObject.update(SQL, name , passord,email,no,username);
+	   public void update(String passord,String email,Long no,String username){
+		      String SQL = "update Users set password=?,email=?,phno=? where user_name= ?";
+		      jdbcTemplateObject.update(SQL,  passord,email,no,username);
 		      //System.out.println("Updated Record with ID = " + id );
 		      return;
 		   }
