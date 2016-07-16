@@ -14,6 +14,13 @@ public class UserJDBCTemplate implements UserDAO {
 	   private DataSource dataSource;
 	   private JdbcTemplate jdbcTemplateObject;
 	   
+	   
+	   public void clearSingle(String id)
+	   {
+		   String SQL = "delete from CallHistory where CallId = ?";
+		   jdbcTemplateObject.update(SQL,id);
+		   return;
+	   }
 	   public void clear(String name)
 	   {
 		   String SQL = "delete from CallHistory where Caller2 = '"+name+"' ";
@@ -30,11 +37,11 @@ public class UserJDBCTemplate implements UserDAO {
 	   
 	   public List<Histoty> notification(String name,String date)
 	   {
-		   String sql = "SELECT DISTINCT(Caller1),Time FROM CallHistory WHERE Caller2 = '"+name+"' AND Time > '"+date+"'" ;
+		   String sql = "SELECT DISTINCT(Caller1),Time,CallId FROM CallHistory WHERE Caller2 = '"+name+"' AND Time > '"+date+"'" ;
 		      List<Histoty> callHistory = jdbcTemplateObject.query(sql, new RowMapper<Histoty>(){
 		      public Histoty mapRow(ResultSet rs, int rowNum) throws SQLException {
 		    	  Histoty hist=new Histoty();
-
+		    	  hist.setId(rs.getInt("CallId"));
 		    	  hist.setCaller1(rs.getString("Caller1"));
 		    	  hist.setDate(rs.getString("Time"));
 		    	  return hist;

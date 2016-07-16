@@ -8,6 +8,7 @@ public interface UserDAO {
 
    public void setDataSource(DataSource ds);
    public void clear(String name);
+   public void clearSingle(String id);
    public void create(String name,String password,String email,Long phno,String date);
 
    public List<User> listUser(String name);

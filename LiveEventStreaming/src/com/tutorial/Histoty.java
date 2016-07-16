@@ -3,7 +3,13 @@ package com.tutorial;
 import java.util.Date;
 
 public class Histoty {
-
+	private Integer id;
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	private String caller1;
 	private String caller2;
 	private String date;

@@ -29,7 +29,17 @@ import com.tutorial.UserJDBCTemplate;
 @SessionAttributes( {"user"}) 
 public class HelloController 
 {
- 
+	@RequestMapping(value="Clear",method=RequestMethod.GET)
+	   public String clear(ModelMap model,HttpServletRequest request, HttpServletResponse response) {
+		ApplicationContext context = 
+			      new ClassPathXmlApplicationContext("Beans.xml");
+		UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
+		System.out.print(request.getParameter("id"));
+		studentJDBCTemplate.clearSingle(request.getParameter("id"));
+		   return "redirect:/Dash";
+	      
+	   }
+
 	@RequestMapping("ClearNoti")
 	   public String clearNoti(ModelMap model) {
 		ApplicationContext context = 
