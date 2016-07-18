@@ -35,9 +35,10 @@
             <form method="POST" action="Register.php" >
                  <h2 class="text-center">Register</h2>
                 <br/>
+                <b><h4><mark>${valid}</mark></h4></b>
                 <div class="form-group has-feedback">
                 <input type="text" name="user_name" class="form-control" id="username" placeholder="Name" autofocus required>
-                <i class="glyphicon glyphicon-user form-control-feedback"></i>${valid}
+                <i class="glyphicon glyphicon-user form-control-feedback"></i>
                 </div>
                 <div class="form-group has-feedback">
                     <input type="email" name="email" class="form-control" id="userid" placeholder="Email" required>

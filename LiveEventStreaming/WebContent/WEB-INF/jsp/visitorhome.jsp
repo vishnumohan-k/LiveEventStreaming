@@ -48,7 +48,7 @@
                 <img src="images/go.gif" style="width:10%" ></div>
             <a  style="color: #ffA500;padding-left: 49%; font-size: 20px;cursor: default;text-decoration:none" href="#" onclick="setFocus()">How to Create an Event </a>  
             <!--<input type="button" onclick="window.location.href='login.htm'" id="login1" name="login" value="Create an Event"   style="background: linear-gradient(to bottom, #ffffff 0%, #ffa500 50%, #ffc966 100%) repeat scroll 0 0 rgba(0, 0, 0, 0); border: medium none; border-radius: 4px !important;cursor: pointer; margin: 0 0 0 5px; padding: 5px 17px;backpadding-left: 1%; font-size: 20px;text-decoration:none;margin-top: 15px;" class=""/>-->
-            <a id="login1" style="color: #ffA500;padding-left: 1%; font-size: 20px;text-decoration:none" href="createuser.htm">Create an Event</a> 
+            <a id="login1" style="color: #ffA500;padding-left: 1%; font-size: 20px;text-decoration:none" href="#">Create an Event</a> 
             <br>
         </div>
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

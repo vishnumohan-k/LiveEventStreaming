@@ -15,9 +15,10 @@
             <form method="POST" action="/LiveEventStreaming/SubmitLogin.html">
                  <h2 class="text-center">Sign-In</h2>
                 <br/>
+                <h4><mark>${valid}</mark></h4>
                 <div class="form-group has-feedback">
                     <input type="text" name="userName" class="form-control" id="userid" placeholder="User Name" autofocus required>
-                    <i class="glyphicon glyphicon-user form-control-feedback"></i>${valid}
+                    <i class="glyphicon glyphicon-user form-control-feedback"></i>
                 </div>
                 <br/>
                 <div class="form-group has-feedback">

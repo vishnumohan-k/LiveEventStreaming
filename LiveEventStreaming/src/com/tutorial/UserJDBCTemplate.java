@@ -14,7 +14,19 @@ public class UserJDBCTemplate implements UserDAO {
 	   private DataSource dataSource;
 	   private JdbcTemplate jdbcTemplateObject;
 	   
-	   
+	   public List<User> listSearch(String search, String user){
+	    	
+		      String sql = "SELECT * FROM Users where user_name != '"+user+"' AND user_name LIKE '"+search+"%'";
+		      System.out.println(sql);
+		      List<User> searchRslt = jdbcTemplateObject.query(sql, new RowMapper<User>(){
+		    	  public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+		    		  User user = new User();
+		    		  user.setName(rs.getString("user_name"));
+		    		  return user;
+		    		  }
+		      	});
+		return searchRslt;
+	    }
 	   public void clearSingle(String id)
 	   {
 		   String SQL = "delete from CallHistory where CallId = ?";
@@ -33,6 +45,25 @@ public class UserJDBCTemplate implements UserDAO {
 		    Object[] inputs = new Object[] {name};
 	        String date = jdbcTemplateObject.queryForObject(SQL, inputs, String.class);        
 		   return date;
+	   }
+	   
+	   public List<Histoty>viewAll(String name)
+	   {
+		   String sql = "SELECT Caller1,Time,CallId FROM CallHistory WHERE Caller2 = '"+name+"'" ;
+		      List<Histoty> AllHistory = jdbcTemplateObject.query(sql, new RowMapper<Histoty>(){
+		      public Histoty mapRow(ResultSet rs, int rowNum) throws SQLException {
+		    	  Histoty hist=new Histoty();
+		    	  hist.setId(rs.getInt("CallId"));
+		    	  hist.setCaller1(rs.getString("Caller1"));
+		    	  hist.setDate(rs.getString("Time"));
+		    	  return hist;
+     }
+		
+		      
+ });
+
+ return AllHistory;
+		            
 	   }
 	   
 	   public List<Histoty> notification(String name,String date)

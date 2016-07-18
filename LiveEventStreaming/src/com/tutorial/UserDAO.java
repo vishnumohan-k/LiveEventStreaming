@@ -5,7 +5,8 @@ import java.util.List;
 import javax.sql.DataSource;
 
 public interface UserDAO {
-
+	
+	public List<User> listSearch(String search, String user);
    public void setDataSource(DataSource ds);
    public void clear(String name);
    public void clearSingle(String id);
@@ -35,6 +36,8 @@ public interface UserDAO {
    public void sendRequest(String caller1,String caller2,String date);
    
    public List<Histoty>notification(String name,String date);
+   
+   public List<Histoty>viewAll(String name);
    
    public String returnDate(String name);
    

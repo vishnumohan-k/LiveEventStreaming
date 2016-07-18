@@ -17,21 +17,20 @@
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 			
-					<center><div class="panel-heading"><h1><abbr>Your Notifications</abbr></h1></div></center>
+					<center><div class="panel-heading"><h1><abbr>Your Complete Call History</abbr></h1></div></center>
 					
 					<div class="panel-body">
 						<div class="canvas-wrapper">
-							<h2>Video Call Request From&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="/LiveEventStreaming/ClearNoti">Clear All</a></h2><br/>
+							<h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="/LiveEventStreaming/ClearAll">Clear All</a></h2><br/>
 							<center><h2>${valid}</h2></center>
 								<c:forEach var="contact" items="${noti}" varStatus="status">
 							<center>
 							
 						<h3>	<p><a href="/LiveEventStreaming/ViewProfile?name=${contact.caller1}">${contact.caller1}</a>&nbsp;&nbsp;&nbsp;
-							<button type="button" class="btn btn-success">Accept</button>&nbsp;&nbsp;
-							<button type="button" class="btn btn-danger">Deny</button>&nbsp;&nbsp;
+							
 							Time: ${contact.date}
-							<a href="/LiveEventStreaming/Clear?id=${contact.id}"><img src="images/close_window.png" style="width:2.1%;height:10%;"></a>
+							<a href="/LiveEventStreaming/ClearSingle?id=${contact.id}"><img src="images/close_window.png" style="width:2.1%;height:10%;"></a>
 							</p></h3> 
 							</center>
 									</c:forEach>

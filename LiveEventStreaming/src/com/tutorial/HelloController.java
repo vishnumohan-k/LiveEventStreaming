@@ -29,6 +29,32 @@ import com.tutorial.UserJDBCTemplate;
 @SessionAttributes( {"user"}) 
 public class HelloController 
 {
+	
+
+	@RequestMapping(value="/search",method=RequestMethod.GET)
+	public ModelAndView searching(ModelMap mod,@RequestParam("val")String name){
+		System.out.println(name);
+		String user="getthisfromSession";//(String)mod.get("user")
+	 	ApplicationContext context = 
+		   	      new ClassPathXmlApplicationContext("Beans.xml");
+		   	      UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
+	    List<User> listSearch = studentJDBCTemplate.listSearch(name,user);
+	    
+		ModelAndView model=new ModelAndView("search");
+		    model.addObject("listSearch", listSearch);
+			return model;			
+	}
+	
+	@RequestMapping(value="ClearSingle",method=RequestMethod.GET)
+	   public String clearSingle(ModelMap model,HttpServletRequest request, HttpServletResponse response) {
+		ApplicationContext context = 
+			      new ClassPathXmlApplicationContext("Beans.xml");
+		UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
+		System.out.print(request.getParameter("id"));
+		studentJDBCTemplate.clearSingle(request.getParameter("id"));
+		   return "redirect:/ViewAll";
+	      
+	   }
 	@RequestMapping(value="Clear",method=RequestMethod.GET)
 	   public String clear(ModelMap model,HttpServletRequest request, HttpServletResponse response) {
 		ApplicationContext context = 
@@ -37,6 +63,15 @@ public class HelloController
 		System.out.print(request.getParameter("id"));
 		studentJDBCTemplate.clearSingle(request.getParameter("id"));
 		   return "redirect:/Dash";
+	      
+	   }
+	@RequestMapping("ClearAll")
+	   public String clearAll(ModelMap model) {
+		ApplicationContext context = 
+			      new ClassPathXmlApplicationContext("Beans.xml");
+		UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
+		studentJDBCTemplate.clear((String)model.get("user"));
+		   return "redirect:/ViewAll";
 	      
 	   }
 
@@ -140,6 +175,47 @@ public class HelloController
 	    return mod;
 	    }
 	      
+	   }
+	
+	   @RequestMapping("/success")
+	   public String demo(ModelMap model) {
+	      //model.addAttribute("message", "Hello Spring MVC Framework!");
+		   return "test";
+		  
+	   }
+		
+	   @RequestMapping(value="/ViewAll",method=RequestMethod.GET)
+	   public ModelAndView view(ModelMap model,HttpServletRequest request, HttpServletResponse response) {
+		   ApplicationContext context = 
+				      new ClassPathXmlApplicationContext("Beans.xml");
+			UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
+			
+		    List<User> listContact = studentJDBCTemplate.listUser((String)model.get("user"));
+		    List<User> listOnline = studentJDBCTemplate.listOnline((String)model.get("user"));
+		    List<User> listOffline = studentJDBCTemplate.listOffline((String)model.get("user"));
+		    String name=request.getParameter("name");
+		    ModelAndView mod=new ModelAndView();
+		    mod.addObject("listContact", listContact);
+		    if(model.isEmpty())
+			{
+
+		 	      mod.setViewName("redirect:/Login");
+				  return mod;
+			}
+		    else
+		    {
+			    List<Histoty> viewAll=studentJDBCTemplate.viewAll((String)model.get("user"));
+			    if(viewAll.isEmpty())	
+					mod.addObject("valid","Your Call History is empty");
+
+		   // mod.addObject("name", name);
+		    mod.addObject("listContact", listContact);
+		    mod.addObject("noti", viewAll);
+		    mod.addObject("listOnline", listOnline);
+		    mod.addObject("listOffline", listOffline);
+		    mod.setViewName("ViewAll");
+		    return mod;
+		    }
 	   }
 	
    @RequestMapping("/")
@@ -271,7 +347,7 @@ public class HelloController
 	   		   	 {
 	   		   		 System.out.print("Invalid");
 			  		ModelAndView mod1=new ModelAndView("LoginPage");
-					mod1.addObject("valid","**Incorrect Username and password");
+					mod1.addObject("valid","Incorrect Username and password");
 					return mod1;
 			      }
 	   	      
@@ -343,7 +419,7 @@ public class HelloController
 	      if(!studentJDBCTemplate.usernameValid(name)){
 		  		ModelAndView model=new ModelAndView("SubmitRegistration");
 				model.addObject("msg","User Registration");
-				model.addObject("valid","**Username exist please choose another");
+				model.addObject("valid","Username exist please choose another");
 				return model;
 		      }
 	     // Integer status=1;
