@@ -1,6 +1,6 @@
 <%@include file="UserHeader.jsp"%>
 <script src="js/jquery-1.12.2.js"></script>
-<%response.setIntHeader("Refresh", 50); %>
+<%response.setIntHeader("Refresh", 20); %>
 		<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		<form role="search">
@@ -25,8 +25,7 @@
    <dl class="accordion">
 		<dt><h4><b>${contact.name}</b></h4></dt>
 		<dd><h4>&nbsp;&nbsp;<a href="/LiveEventStreaming/ChatRequest?name=${contact.name}">Send Chat Request</a> <br><br>&nbsp;
-		<a href="/LiveEventStreaming/ViewProfile?name=${contact.name}">View Profile</a><br><br>&nbsp;
-		<a href="#">Hide Contact</a>&nbsp;
+		<a href="/LiveEventStreaming/ViewProfile?name=${contact.name}">View Profile</a>&nbsp;
 		</h4>
 		</dd>
    </dl>
@@ -58,8 +57,7 @@
       
    <dl class="accordion">
 		<dt><h4><b>${contact.name}</b></h4></dt>
-		<dd><h4>&nbsp;<a href="/LiveEventStreaming/ViewProfile?name=${contact.name}">View Profile</a> <br><br>&nbsp;
-		<a href="#">Hide Contact</a>&nbsp;
+		<dd><h4>&nbsp;&nbsp;<a href="/LiveEventStreaming/ViewProfile?name=${contact.name}">View Profile</a>&nbsp;
 		</h4>
 		</dd>
    </dl>

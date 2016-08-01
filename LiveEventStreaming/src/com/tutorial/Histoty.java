@@ -3,6 +3,13 @@ package com.tutorial;
 import java.util.Date;
 
 public class Histoty {
+	private String Status;
+	public String getStatus() {
+		return Status;
+	}
+	public void setStatus(String status) {
+		Status = status;
+	}
 	private Integer id;
 	public Integer getId() {
 		return id;

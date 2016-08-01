@@ -1,6 +1,4 @@
- 1. Table- Users
- 
-           mysql> desc Users;
+ 1. mysql> desc Users;
 +-----------+-------------+------+-----+---------+----------------+
 | Field     | Type        | Null | Key | Default | Extra          |
 +-----------+-------------+------+-----+---------+----------------+
@@ -12,6 +10,7 @@
 | LastLogin | datetime    | YES  |     | NULL    |                |
 | status    | int(1)      | NO   |     | NULL    |                |
 +-----------+-------------+------+-----+---------+----------------+
+
            
          
          
@@ -27,14 +26,33 @@ mysql> desc CallHistory;
 | Caller2 | varchar(30) | NO   |     | NULL    |                |
 | Time    | datetime    | NO   |     | NULL    |                |
 +---------+-------------+------+-----+---------+----------------+
+
+
+
   		
   		
  3. Table - online
  
- mysql> desc online;
+ desc online;
 +----------+-------------+------+-----+---------+-------+
 | Field    | Type        | Null | Key | Default | Extra |
 +----------+-------------+------+-----+---------+-------+
 | Username | varchar(30) | NO   | PRI | NULL    |       |
 +----------+-------------+------+-----+---------+-------+
+
+
+
+ 4. Table - Connection
+
+
+desc Connection;
++-----------+---------+------+-----+---------+----------------+
+| Field     | Type    | Null | Key | Default | Extra          |
++-----------+---------+------+-----+---------+----------------+
+| ConnectId | int(6)  | NO   | PRI | NULL    | auto_increment |
+| CallId    | int(5)  | NO   |     | NULL    |                |
+| Status    | int(11) | NO   |     | NULL    |                |
++-----------+---------+------+-----+---------+----------------+
+
+
  

@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +53,7 @@ public class HelloController
 			      new ClassPathXmlApplicationContext("Beans.xml");
 		UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
 		System.out.print(request.getParameter("id"));
-		studentJDBCTemplate.clearSingle(request.getParameter("id"));
+		studentJDBCTemplate.deleteSingle(request.getParameter("id"));
 		   return "redirect:/ViewAll";
 	      
 	   }
@@ -80,7 +82,7 @@ public class HelloController
 		ApplicationContext context = 
 			      new ClassPathXmlApplicationContext("Beans.xml");
 		UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
-		studentJDBCTemplate.clear((String)model.get("user"));
+		studentJDBCTemplate.clearNoti((String)model.get("user"));
 		   return "redirect:/Dash";
 	      
 	   }
@@ -97,6 +99,8 @@ public class HelloController
 	    new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String date = sdf.format(dt);
 		studentJDBCTemplate.sendRequest(caller1, caller2, date);
+		String ID=studentJDBCTemplate.getId(caller1, caller2, date);
+		studentJDBCTemplate.connect(ID);
 	    ModelAndView mod=new ModelAndView();
 	    List<User> listContact = studentJDBCTemplate.listUser((String)model.get("user"));
 	    List<User> listOnline = studentJDBCTemplate.listOnline((String)model.get("user"));
@@ -164,6 +168,13 @@ public class HelloController
 	 	      mod.setViewName("redirect:/Login");
 			  return mod;
 		}
+	    else if(!studentJDBCTemplate.checkConnected((String)model.get("user")))
+	    {
+		    mod.addObject("listOnline", listOnline);
+		    mod.addObject("listOffline", listOffline);
+	    	mod.setViewName("player");
+		    return mod;
+	    }
 	    else
 	    {
 	    mod.addObject("name", name);
@@ -177,10 +188,35 @@ public class HelloController
 	      
 	   }
 	
-	   @RequestMapping("/success")
-	   public String demo(ModelMap model) {
-	      //model.addAttribute("message", "Hello Spring MVC Framework!");
-		   return "test";
+	   @RequestMapping(value="/success",method=RequestMethod.GET)
+	   public ModelAndView demo(ModelMap model,HttpServletRequest request, HttpServletResponse response) {
+		   ApplicationContext context = 
+				      new ClassPathXmlApplicationContext("Beans.xml");
+				      UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
+				      List<User> listOnline = studentJDBCTemplate.listOnline((String)model.get("user"));
+					    List<User> listOffline = studentJDBCTemplate.listOffline((String)model.get("user"));
+				    List<User> listContact = studentJDBCTemplate.listUser((String)model.get("user"));
+		
+
+
+				    ModelAndView mod=new ModelAndView();
+				    if(model.isEmpty())
+					{
+				 	      mod.setViewName("redirect:/Login");
+						  return mod;
+					}
+				    
+				    else																																																																																																																																																																																						
+				    {
+       	    	    studentJDBCTemplate.updateConStatus(request.getParameter("id"));
+				    mod.addObject("listContact", listContact);
+		
+				    mod.addObject("listOnline", listOnline);
+				    mod.addObject("listOffline", listOffline);
+				    mod.setViewName("player");
+				    return mod;
+				    }
+
 		  
 	   }
 		
@@ -202,12 +238,19 @@ public class HelloController
 		 	      mod.setViewName("redirect:/Login");
 				  return mod;
 			}
+		    else if(!studentJDBCTemplate.checkConnected((String)model.get("user")))
+		    {
+			    mod.addObject("listOnline", listOnline);
+			    mod.addObject("listOffline", listOffline);
+		    	mod.setViewName("player");
+			    return mod;
+		    }
 		    else
 		    {
 			    List<Histoty> viewAll=studentJDBCTemplate.viewAll((String)model.get("user"));
 			    if(viewAll.isEmpty())	
 					mod.addObject("valid","Your Call History is empty");
-
+			    
 		   // mod.addObject("name", name);
 		    mod.addObject("listContact", listContact);
 		    mod.addObject("noti", viewAll);
@@ -217,6 +260,48 @@ public class HelloController
 		    return mod;
 		    }
 	   }
+	   
+	   @RequestMapping(value="/Outgoing",method=RequestMethod.GET)
+	   public ModelAndView viewOut(ModelMap model,HttpServletRequest request, HttpServletResponse response) {
+		   ApplicationContext context = 
+				      new ClassPathXmlApplicationContext("Beans.xml");
+			UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
+			
+		    List<User> listContact = studentJDBCTemplate.listUser((String)model.get("user"));
+		    List<User> listOnline = studentJDBCTemplate.listOnline((String)model.get("user"));
+		    List<User> listOffline = studentJDBCTemplate.listOffline((String)model.get("user"));
+		    String name=request.getParameter("name");
+		    ModelAndView mod=new ModelAndView();
+		    mod.addObject("listContact", listContact);
+		    if(model.isEmpty())
+			{
+
+		 	      mod.setViewName("redirect:/Login");
+				  return mod;
+			}
+		    else if(!studentJDBCTemplate.checkConnected((String)model.get("user")))
+		    {
+			    mod.addObject("listOnline", listOnline);
+			    mod.addObject("listOffline", listOffline);
+		    	mod.setViewName("player");
+			    return mod;
+		    }
+		    else
+		    {
+			    List<Histoty> viewOut=studentJDBCTemplate.viewOut((String)model.get("user"));
+			    if(viewOut.isEmpty())	
+					mod.addObject("valid","Your Call History is empty");
+			    
+		   // mod.addObject("name", name);
+		    mod.addObject("listContact", listContact);
+		    mod.addObject("noti", viewOut);
+		    mod.addObject("listOnline", listOnline);
+		    mod.addObject("listOffline", listOffline);
+		    mod.setViewName("ViewOut");
+		    return mod;
+		    }
+	   }
+
 	
    @RequestMapping("/")
    public String Home(ModelMap model) {
@@ -232,7 +317,7 @@ public class HelloController
 	  
    }
    @RequestMapping(value="/ViewProfile",method=RequestMethod.GET)
-   public ModelAndView ViewProfile(ModelMap model,HttpServletRequest request, HttpServletResponse response) {
+   public ModelAndView ViewProfile(ModelMap model,HttpServletRequest request, HttpServletResponse response) throws UnknownHostException {
 	   ApplicationContext context = 
 			      new ClassPathXmlApplicationContext("Beans.xml");
 		UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
@@ -250,9 +335,26 @@ public class HelloController
 	 	      mod.setViewName("redirect:/Login");
 			  return mod;
 		}
+	    else if(!studentJDBCTemplate.checkConnected((String)model.get("user")))
+	    {
+		    mod.addObject("listOnline", listOnline);
+		    mod.addObject("listOffline", listOffline);
+	    	mod.setViewName("player");
+		    return mod;
+	    }
 	    else
 	    {
-
+	    /* InetAddress IP=InetAddress.getLocalHost();
+	    	System.out.println(IP.getHostAddress());
+	    	InetAddress ip;
+	        String hostname;
+	        
+	            ip = InetAddress.getLocalHost();
+	            hostname = ip.getHostName();
+	            System.out.println("Your current IP address : " + ip);
+	            System.out.println("Your current Hostname : " + hostname);
+	 */
+	        
 	    mod.addObject("name", name);
 	    mod.addObject("listContact", listContact);
 	    mod.addObject("listProfile", listProfile);
@@ -282,8 +384,17 @@ public class HelloController
 	 	      mod.setViewName("redirect:/Login");
 			  return mod;
 		}
+	    else if(!studentJDBCTemplate.checkConnected((String)model.get("user")))
+	    {
+		    mod.addObject("listOnline", listOnline);
+		    mod.addObject("listOffline", listOffline);
+	    	mod.setViewName("player");
+		    return mod;
+	    }
 		else
-		{
+		{	
+			
+			
 			String date=studentJDBCTemplate.returnDate((String)model.get("user"));
 		    List<Histoty> noti=studentJDBCTemplate.notification((String)model.get("user"), date);
 		    if(noti.isEmpty())	
@@ -298,6 +409,26 @@ public class HelloController
 		 }
 	}
 
+   @RequestMapping(value="/Disconnect")
+   public ModelAndView Disconnect(ModelMap model)
+   {
+	   ApplicationContext context = 
+			      new ClassPathXmlApplicationContext("Beans.xml");
+		UserJDBCTemplate studentJDBCTemplate = (UserJDBCTemplate)context.getBean("userJDBCTemplate");
+		studentJDBCTemplate.disconnect();
+	    ModelAndView mod=new ModelAndView();
+	    List<User> listOnline = studentJDBCTemplate.listOnline((String)model.get("user"));
+	    List<User> listOffline = studentJDBCTemplate.listOffline((String)model.get("user"));
+	    mod.addObject("listOnline", listOnline);
+	    mod.addObject("listOffline", listOffline);
+		String date=studentJDBCTemplate.returnDate((String)model.get("user"));
+	    List<Histoty> noti=studentJDBCTemplate.notification((String)model.get("user"), date);
+	    if(noti.isEmpty())	
+			mod.addObject("valid","Currently there is no notifications for you!");
+		mod.addObject("noti", noti);
+	    mod.setViewName("Dash");
+	    return mod;
+   }
    
 	@RequestMapping(value="/Login",method=RequestMethod.GET)
 	public ModelAndView getLoginForm(ModelMap mod)
@@ -389,7 +520,7 @@ public class HelloController
         status.setComplete();
         session.removeAttribute("user");
         model.remove("user");
-		return "redirect:/Login";
+		return "redirect:/Login#main";
 	}
 
 	

@@ -14,6 +14,11 @@ public class UserJDBCTemplate implements UserDAO {
 	   private DataSource dataSource;
 	   private JdbcTemplate jdbcTemplateObject;
 	   
+	   public void setDataSource(DataSource dataSource) {
+		      this.dataSource = dataSource;
+		      this.jdbcTemplateObject = new JdbcTemplate(dataSource);
+		   }
+	   
 	   public List<User> listSearch(String search, String user){
 	    	
 		      String sql = "SELECT * FROM Users where user_name != '"+user+"' AND user_name LIKE '"+search+"%'";
@@ -29,13 +34,26 @@ public class UserJDBCTemplate implements UserDAO {
 	    }
 	   public void clearSingle(String id)
 	   {
-		   String SQL = "delete from CallHistory where CallId = ?";
+		   String SQL = "update Connection set Status=3 where CallId = ?";
 		   jdbcTemplateObject.update(SQL,id);
+		   return;
+	   }
+	   public void clearNoti(String name)
+	   {
+		   String SQL = "update CallHistory a,Connection b set b.Status=3 where a.Caller2='"+name+"' and  a.CallId=b.CallId";
+		   jdbcTemplateObject.update(SQL);
 		   return;
 	   }
 	   public void clear(String name)
 	   {
 		   String SQL = "delete from CallHistory where Caller2 = '"+name+"' ";
+		   jdbcTemplateObject.update(SQL);
+		   return;
+	   }
+	   
+	   public void deleteSingle(String id)
+	   {
+		   String SQL = "delete from CallHistory where CallId = '"+id+"' ";
 		   jdbcTemplateObject.update(SQL);
 		   return;
 	   }
@@ -49,13 +67,36 @@ public class UserJDBCTemplate implements UserDAO {
 	   
 	   public List<Histoty>viewAll(String name)
 	   {
-		   String sql = "SELECT Caller1,Time,CallId FROM CallHistory WHERE Caller2 = '"+name+"'" ;
+		   String sql = "SELECT a.Caller1,a.Time,a.CallId,b.Status FROM CallHistory a,Connection b WHERE a.Caller2 = '"+name+"'  and a.CallId=b.CallId";
 		      List<Histoty> AllHistory = jdbcTemplateObject.query(sql, new RowMapper<Histoty>(){
 		      public Histoty mapRow(ResultSet rs, int rowNum) throws SQLException {
 		    	  Histoty hist=new Histoty();
 		    	  hist.setId(rs.getInt("CallId"));
 		    	  hist.setCaller1(rs.getString("Caller1"));
 		    	  hist.setDate(rs.getString("Time"));
+		    	  hist.setStatus(rs.getString("Status"));
+		    	 // System.out.print(hist.getStatus());
+		    	  return hist;
+     }
+		
+		      
+ });
+
+ return AllHistory;
+		            
+	   }
+	   
+	   public List<Histoty>viewOut(String name)
+	   {
+		   String sql = "SELECT a.Caller2,a.Time,a.CallId,b.Status FROM CallHistory a,Connection b WHERE a.Caller1 = '"+name+"'  and a.CallId=b.CallId";
+		      List<Histoty> AllHistory = jdbcTemplateObject.query(sql, new RowMapper<Histoty>(){
+		      public Histoty mapRow(ResultSet rs, int rowNum) throws SQLException {
+		    	  Histoty hist=new Histoty();
+		    	  hist.setId(rs.getInt("CallId"));
+		    	  hist.setCaller2(rs.getString("Caller2"));
+		    	  hist.setDate(rs.getString("Time"));
+		    	  hist.setStatus(rs.getString("Status"));
+		    	 // System.out.print(hist.getStatus());
 		    	  return hist;
      }
 		
@@ -68,7 +109,8 @@ public class UserJDBCTemplate implements UserDAO {
 	   
 	   public List<Histoty> notification(String name,String date)
 	   {
-		   String sql = "SELECT DISTINCT(Caller1),Time,CallId FROM CallHistory WHERE Caller2 = '"+name+"' AND Time > '"+date+"'" ;
+		   //String sql = "SELECT DISTINCT(Caller1),Time,CallId FROM CallHistory WHERE Caller2 = '"+name+"' AND Time > '"+date+"'" ;
+		   String sql="SELECT DISTINCT(a.Caller1),a.Time,a.CallId FROM CallHistory a,Connection b WHERE a.Caller2 = '"+name+"' AND a.Time > '"+date+"' AND b.Status=0 AND a.CallId=b.CallId " ;
 		      List<Histoty> callHistory = jdbcTemplateObject.query(sql, new RowMapper<Histoty>(){
 		      public Histoty mapRow(ResultSet rs, int rowNum) throws SQLException {
 		    	  Histoty hist=new Histoty();
@@ -88,14 +130,11 @@ public class UserJDBCTemplate implements UserDAO {
 	   public void sendRequest(String caller1,String caller2,String date)
 	   {
 		      String SQL = "insert into CallHistory (Caller1,Caller2,Time) values (?,?,?)";
-		      
+	
 		      jdbcTemplateObject.update( SQL, caller1,caller2,date);
 		      return;
 	   }
-	   public void setDataSource(DataSource dataSource) {
-		      this.dataSource = dataSource;
-		      this.jdbcTemplateObject = new JdbcTemplate(dataSource);
-		   }
+
 	   
 	   public void updateLoginTime(String date,String name)
 	   {
@@ -182,7 +221,7 @@ public class UserJDBCTemplate implements UserDAO {
 	   
 	    public List<User> listOnline(String name) 
 	   {
-		      String sql = "SELECT * FROM Users where user_name != '"+name+"' AND status=1";
+		      String sql = "SELECT * FROM Users where user_name != '"+name+"' AND status=1 ORDER BY user_name";
 		      List<User> listOnline = jdbcTemplateObject.query(sql, new RowMapper<User>(){
 		      public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             User user = new User();
@@ -199,7 +238,7 @@ public class UserJDBCTemplate implements UserDAO {
 	    
 	    public List<User> listOffline(String name) 
 		   {
-			      String sql = "SELECT * FROM Users where user_name != '"+name+"' AND status=0";
+			      String sql = "SELECT * FROM Users where user_name != '"+name+"' AND status=0 ORDER BY user_name";
 			      List<User> listOffline = jdbcTemplateObject.query(sql, new RowMapper<User>(){
 			      public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 	            User user = new User();
@@ -231,7 +270,7 @@ public class UserJDBCTemplate implements UserDAO {
 	   public void update(String passord,String email,Long no,String username){
 		      String SQL = "update Users set password=?,email=?,phno=? where user_name= ?";
 		      jdbcTemplateObject.update(SQL,  passord,email,no,username);
-		      //System.out.println("Updated Record with ID = " + id );
+		      System.out.println("Updated Record with ID = " + username );
 		      return;
 		   }
 	   
@@ -271,5 +310,52 @@ public class UserJDBCTemplate implements UserDAO {
 		   if(users.size()>0)
 			   return false;
 		   return true;
+	   }
+	   
+	   public String findCaller(String id)
+	   {
+		   String SQL = "select Caller1 from CallHistory where CallId =? ";
+		   Object[] inputs = new Object[] {id};
+	        String caller = jdbcTemplateObject.queryForObject(SQL, inputs, String.class); 
+		   return caller;
+	   }
+	   
+	   public void connect(String CallID) {
+		      String SQL = "insert into Connection(CallID,Status) values (?,0)";
+		      
+		      jdbcTemplateObject.update( SQL,CallID);
+		      
+		      return;
+		   } 
+	   
+	   public boolean checkConnected(String name)
+	   {
+		   String sql="select a.Status from Connection a,CallHistory b where b.Caller1 ='"+name+"' and a.Status=1 and a.CallId=b.CallId";
+		   List <Histoty> users = jdbcTemplateObject.query(sql, new HistoryMapper());
+		   if(users.size()>0)
+			   return false;
+		   return true;
+	   }
+	   
+	   public String getId(String s1,String s2,String s3)
+	   {
+		   String SQL = "select CallId from CallHistory where Caller1 =? and Caller2 =? and Time =? ";
+		   Object[] inputs = new Object[] {s1,s2,s3};
+	        String CallId = jdbcTemplateObject.queryForObject(SQL, inputs, String.class); 
+		   return CallId;
+	   }
+	   
+	   public void updateConStatus(String id)
+	   {
+		   String SQL = "update Connection set Status=1 where CallId =?";
+		   jdbcTemplateObject.update( SQL, id);
+		   return;
+	   }
+	   
+	   public void disconnect()
+	   {
+		   String SQL = "update Connection set Status=4 where Status=1";
+		   jdbcTemplateObject.update( SQL);
+		   return;
 	   }
 }

@@ -18,9 +18,7 @@
                     <td>
    <dl class="accordion">
 		<dt><h4><b>${contact.name}</b></h4></dt>
-		<dd><h4>&nbsp;<a href="/LiveEventStreaming/ViewProfile?name=${contact.name}">View Profile</a> <br><br>&nbsp;
-		<a href="#">Hide Contact</a><br><br>&nbsp;
-		<a href="#">Exit</a></h4>
+		<dd><h4>&nbsp;<a href="/LiveEventStreaming/ViewProfile?name=${contact.name}">View Profile</a> &nbsp;
 		</dd>
    </dl>
     

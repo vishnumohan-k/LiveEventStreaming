@@ -4,14 +4,13 @@
     Author     : user
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
-      <link rel="stylesheet" href="css/bootstrap.min.css">
 <script type="text/javascript" src="js/visitorhome.js"></script>
-<title>ShowTime</title>
-
 <form:form modelAttribute="visitorhome">
     <div class="breadcrumbs">
         <h1 style="padding-left:420px;" ><tiles:insertAttribute name="menutitle"/> </h1>
@@ -20,10 +19,10 @@
             <li>  <img src="images/wireless.png" style="width:1.1%;height:10%;">            
                 ShowTime
 
-                <a id="events" style=" font-size: 20px;padding-left: 70%;text-decoration:none" href="home.html">Home</a>
+                <a id="events" style=" font-size: 20px;padding-left: 70%;text-decoration:none" href="">Home</a>
 
                 <a style="padding-left: 2%;font-size: 20px;text-decoration:none" id="login" href="Login.html#main">Login</a>
-                <a id="signup" style="padding-left: 2%; font-size: 20px;text-decoration:none" href="SubmitRegistration.html#main">Sign Up</a>
+<a id="signup" style="padding-left: 2%; font-size: 20px;text-decoration:none" href="SubmitRegistration.html#main">Sign Up</a> 
             </li>   
         </ul>
     </div>
@@ -128,5 +127,29 @@
 
         <br>
         <br>
-
+<!--                <br><br><br><br><br><br><br><br>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-->
+    </div>
+    <!--    <div id="divtutorial" style="background-color: #d6ca83;Width:100%;Height:100%;color: #302740;font-size: 16px;font-family: fantasy;font-weight: bold;font-stretch: expanded">
+            <div id="left" style="Width:40%;Height:50%;padding-left:30%;">
+                <img src="images/createevt.png" style="width:257px; height:200px;">
+                <br>          <br>
+                <span style="padding-left: 5%;">  Design Your Event Page</span></div>
+            <div id="right" style="Width:40%;Height:50%;padding-left:60%;">
+                <img src="images/promote.jpg" style="width:257px; height:200px;">          <br>          <br>
+                <span style="padding-left: 7%;"> Promote Your Show</span></div>
+            <div id="left" style="Width:40%;Height:50%;padding-left:30%;">
+                <img src="images/live.png" style="width:257px; height:200px;">          <br>          <br>
+                <span style="padding-left: 15%;"> Go Live</span></div>
+            <div id="right" style="Width:40%;Height:50%;padding-left:60%;">
+                <img src="images/interact.png" style="width:257px; height:200px;">          <br>          <br>
+                <span style="padding-left: 15%;"> Interact Live</span></div>
+            <br><br>
+        </div>-->
 </form:form>   
+
+<!--
+<a style="padding-left: 2%;font-size: 20px;text-decoration:none" id="login" href="Login.html#main">Login</a>
+<a id="signup" style="padding-left: 2%; font-size: 20px;text-decoration:none" href="SubmitRegistration.html#main">Sign Up</a> 
+ -->   
